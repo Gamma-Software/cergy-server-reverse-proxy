@@ -1,25 +1,25 @@
 server {
        listen         80;
-       server_name    <server_name>;
+       server_name    cergy-server.pival.lan;
        return         301 https://$server_name$request_uri; #Redirection 
 }
 
 server {
-    server_name  <server_name>;
+    server_name  cergy-server.pival.lan;
     listen         443 ssl;
 
-    ssl_certificate /etc/ssl_cert/ssl.crt;
-    ssl_certificate_key /etc/ssl_cert/ssl.key;
+    ssl_certificate /etc/ssl_cert/cert.pem;
+    ssl_certificate_key /etc/ssl_cert/key.pem;
   
     # Default server redirection
     location / {
-        rewrite ^/$ https://<server_name>/server1 redirect;
+        rewrite ^/$ https://cergy-server.pival.lan/netdata redirect;
     }
 
-    location /server1 {
-        proxy_pass http://ip_host:port_server1;
+    location /netdata {
+        proxy_pass http://cergy-server.pival.lan:19999;
     }
-    location /server2 {
-        proxy_pass http://ip_host:port_server2/;
+    location /jupyter {
+        proxy_pass http://cergy-server.pival.lan:8888;
     }
 }
